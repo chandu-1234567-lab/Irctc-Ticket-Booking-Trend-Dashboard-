@@ -33,6 +33,7 @@ CREATE TABLE Users (
     gender VARCHAR(10),
     city VARCHAR(100)
 );
+<br>
 2️⃣ Trains Table
 CREATE TABLE Trains (
     train_id INT PRIMARY KEY,
@@ -41,6 +42,7 @@ CREATE TABLE Trains (
     destination VARCHAR(100),
     distance_km INT
 );
+<br>
 3️⃣ Bookings Table
 CREATE TABLE Bookings (
     booking_id INT PRIMARY KEY,
@@ -54,27 +56,32 @@ CREATE TABLE Bookings (
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
     FOREIGN KEY (train_id) REFERENCES Trains(train_id)
 );
+<br>
 📊 Step 2: Important SQL Queries (For Dashboard)
 🔹 Total Revenue
 SELECT SUM(fare) AS total_revenue
 FROM Bookings
 WHERE status = 'Confirmed';
+<br>
 🔹 Most Popular Route
 SELECT t.source, t.destination, COUNT(*) AS total_bookings
 FROM Bookings b
 JOIN Trains t ON b.train_id = t.train_id
 GROUP BY t.source, t.destination
 ORDER BY total_bookings DESC;
+<br>
 🔹 Booking Trend Monthly
 SELECT MONTH(booking_date) AS month,
        COUNT(*) AS total_bookings
 FROM Bookings
 GROUP BY MONTH(booking_date);
+<br>
 🔹 Cancellation Rate
 SELECT 
   (SUM(CASE WHEN status='Cancelled' THEN 1 ELSE 0 END)*100.0 / COUNT(*)) 
   AS cancellation_percentage
 FROM Bookings;
+<br>
 📈 Step 3: Excel Part
 
 After exporting SQL data to Excel:
@@ -107,6 +114,7 @@ Users ↔ Bookings
 Trains ↔ Bookings
 
 📌 DAX Measures
+<br>
 Total Revenue
 Total Revenue = 
 CALCULATE(SUM(Bookings[fare]), Bookings[status] = "Confirmed")
@@ -118,6 +126,7 @@ DIVIDE(
     CALCULATE(COUNT(Bookings[booking_id]), Bookings[status] = "Cancelled"),
     COUNT(Bookings[booking_id])
 )
+<br>
 🎨 Suggested Dashboard Layout
 🔷 Top KPIs
 
