@@ -25,63 +25,61 @@ This is a real-world DBMS + Excel + Power BI integration project.
 Use MySQL / PostgreSQL
 
 📌 Tables Design
-1️⃣ Users Table
-CREATE TABLE Users (
-    user_id INT PRIMARY KEY,
-    name VARCHAR(100),
-    age INT,
-    gender VARCHAR(10),
-    city VARCHAR(100)
-);
-<br>
-2️⃣ Trains Table
-CREATE TABLE Trains (
-    train_id INT PRIMARY KEY,
-    train_name VARCHAR(100),
-    source VARCHAR(100),
-    destination VARCHAR(100),
-    distance_km INT
-);
-<br>
-3️⃣ Bookings Table
-CREATE TABLE Bookings (
-    booking_id INT PRIMARY KEY,
-    user_id INT,
-    train_id INT,
-    journey_date DATE,
-    booking_date DATE,
-    class VARCHAR(20),
-    fare DECIMAL(10,2),
-    status VARCHAR(20), -- Confirmed / Waiting / Cancelled
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (train_id) REFERENCES Trains(train_id)
-);
-<br>
-📊 Step 2: Important SQL Queries (For Dashboard)
-🔹 Total Revenue
-SELECT SUM(fare) AS total_revenue
-FROM Bookings
-WHERE status = 'Confirmed';
-<br>
-🔹 Most Popular Route
-SELECT t.source, t.destination, COUNT(*) AS total_bookings
-FROM Bookings b
-JOIN Trains t ON b.train_id = t.train_id
-GROUP BY t.source, t.destination
-ORDER BY total_bookings DESC;
-<br>
-🔹 Booking Trend Monthly
-SELECT MONTH(booking_date) AS month,
-       COUNT(*) AS total_bookings
-FROM Bookings
-GROUP BY MONTH(booking_date);
-<br>
-🔹 Cancellation Rate
-SELECT 
-  (SUM(CASE WHEN status='Cancelled' THEN 1 ELSE 0 END)*100.0 / COUNT(*)) 
-  AS cancellation_percentage
-FROM Bookings;
-<br>
+1️⃣ Users Table <br>
+CREATE TABLE Users (<br>
+    user_id INT PRIMARY KEY,<br>
+    name VARCHAR(100),<br>
+    age INT,<br>
+    gender VARCHAR(10),<br>
+    city VARCHAR(100)<br>
+);<br>
+
+2️⃣ Trains Table<br>
+CREATE TABLE Trains (<br>
+    train_id INT PRIMARY KEY,<br>
+    train_name VARCHAR(100),<br>
+    source VARCHAR(100),<br>
+    destination VARCHAR(100),<br>
+    distance_km INT<br>
+);<br>
+
+3️⃣ Bookings Table<br>
+CREATE TABLE Bookings (<br>
+    booking_id INT PRIMARY KEY,<br>
+    user_id INT,<br>
+    train_id INT,<br>
+    journey_date DATE,<br>
+    booking_date DATE,<br>
+    class VARCHAR(20),<br>
+    fare DECIMAL(10,2),<br>
+    status VARCHAR(20), -- Confirmed / Waiting / Cancelled<br>
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),<br>
+    FOREIGN KEY (train_id) REFERENCES Trains(train_id)<br>
+);<br>
+
+📊 Step 2: Important SQL Queries (For Dashboard)<br>
+🔹 Total Revenue<br>
+SELECT SUM(fare) AS total_revenue<br>
+FROM Bookings<br>
+WHERE status = 'Confirmed';<br>
+🔹 Most Popular Route<br>
+SELECT t.source, t.destination, COUNT(*) AS total_bookings<br>
+FROM Bookings b<br>
+JOIN Trains t ON b.train_id = t.train_id<br>
+GROUP BY t.source, t.destination<br>
+ORDER BY total_bookings DESC;<br>
+
+🔹 Booking Trend Monthly<br>
+SELECT MONTH(booking_date) AS month,<br>
+       COUNT(*) AS total_bookings<br>
+FROM Bookings<br>
+GROUP BY MONTH(booking_date);<br>
+
+🔹 Cancellation Rate<br>
+SELECT <br>
+  (SUM(CASE WHEN status='Cancelled' THEN 1 ELSE 0 END)*100.0 / COUNT(*)) <br>
+  AS cancellation_percentage<br>
+FROM Bookings;<br>
 📈 Step 3: Excel Part
 
 After exporting SQL data to Excel:
